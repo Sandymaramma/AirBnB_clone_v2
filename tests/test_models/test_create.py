@@ -13,11 +13,10 @@ class TestCreateStatae(unittest.TestCase):
 
     def setUp(self):
         connDB = MySQLdb.connect(
-            user=hbnb_test,
-            passwd=hbnb_test_pwd,
-            host=localhost,
-            db=hbnb_test_db,
-            storage=db)
+            user='hbnb_test',
+            passwd='hbnb_test_pwd',
+            host='localhost',
+            db='hbnb_test_db')
         self.cursor = self.connDB.cursor()
 
     def test_create_state(self):
