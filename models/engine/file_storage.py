@@ -36,7 +36,7 @@ class FileStorage:
         if obj:
             FileStorage.__objects.pop(obj)
         else:
-            continue
+            pass
 
     def reload(self):
         """Loads storage dictionary from file"""
