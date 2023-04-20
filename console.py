@@ -115,41 +115,37 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """ Create an object of any class"""
-        args = arg.split()
-        if len(args) < 2:
-            print("Usage: create <Class name> <param1> <param2> ...")
+
+# Tokenize the args from the console
+        tokens = tokenize(args)
+        # extract the class name
+        class_name = tokens[0]
+        # extract all params
+        params = tokens[1:]
+        # check if args passed
+        if args == "":
+            print("** class name missing **")
             return
-        class_name = args[0]
-        if class_name not in HBNBCommand.classes:
+        # if class not in class
+        elif class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        # Split the params into key-value pairs
-        params = {}
-        for param in args[1:]:
+        # create a new class instance
+        new_instance = HBNBCommand.classes[class_name]()
+        # loop through all params and setattr to the object instance
+        for param in params:
             try:
-                key, value = param.split('=')
-            except ValueError:
-                print(f"Skipping invalid parameter: {param}")
-                continue
-
-        # Convert the value to the appropriate type
-            if value.startswith('"') and value.endswith('"'):
-                value = value[1:-1].replace('_', ' ').replace('\\"', '"')
-            elif '.' in value:
-                try:
+                key, value = param.split("=")
+                value = value.replace("_", " ")
+                if value[0] == '"' and value[-1] == '"' and len(value) > 1:
+                    value = value[1:-1]
+                elif "." in value:
                     value = float(value)
-                except ValueError:
-                    print(f"Skipping invalid parameter value: {param}")
-                    continue
-            else:
-                try:
+                else:
                     value = int(value)
-                except ValueError:
-                    print(f"Skipping invalid parameter value: {param}")
-                    continue
-
-            params[key] = values
-        new_instance = HBNBCommand.classes[args]()
+                setattr(new_instance, key, value)
+            except Exception:
+                continue
         storage.save()
         print(new_instance.id)
         storage.save()
