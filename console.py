@@ -133,22 +133,22 @@ class HBNBCommand(cmd.Cmd):
                 continue
 
         # Convert the value to the appropriate type
-        if value.startswith('"') and value.endswith('"'):
-            value = value[1:-1].replace('_', ' ').replace('\\"', '"')
-        elif '.' in value:
-            try:
-                value = float(value)
-            except ValueError:
-                print(f"Skipping invalid parameter value: {param}")
-                continue
-        else:
-            try:
-                value = int(value)
-            except ValueError:
-                print(f"Skipping invalid parameter value: {param}")
-                continue
+            if value.startswith('"') and value.endswith('"'):
+                value = value[1:-1].replace('_', ' ').replace('\\"', '"')
+            elif '.' in value:
+                try:
+                    value = float(value)
+                except ValueError:
+                    print(f"Skipping invalid parameter value: {param}")
+                    continue
+            else:
+                try:
+                    value = int(value)
+                except ValueError:
+                    print(f"Skipping invalid parameter value: {param}")
+                    continue
 
-        params[key] = values
+            params[key] = values
         new_instance = HBNBCommand.classes[args]()
         storage.save()
         print(new_instance.id)
